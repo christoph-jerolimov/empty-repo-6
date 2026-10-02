@@ -1,0 +1,54 @@
+{
+  "name": "usepromises",
+  "version": "0.1.0",
+  "description": "Tiny React hooks for working with promises: usePromise, useMountPromise and useUnmountPromise.",
+  "keywords": [
+    "react",
+    "hooks",
+    "promise",
+    "async",
+    "usePromise"
+  ],
+  "license": "MIT",
+  "author": "Christoph Jerolimov",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christoph-jerolimov/empty-repo-6.git"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "npm run typecheck && node --test",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^30.0.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "jsdom": "^29.1.1",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "typescript": "^7.0.2"
+  }
+}
