@@ -1,0 +1,32 @@
+name: Publish
+
+# Publishes to npm when a GitHub release is published. Uses npm trusted
+# publishing (OIDC), so no NPM_TOKEN secret is needed once the package is
+# linked to this repository/workflow on npmjs.com.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: npm
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+
+      - run: pnpm install --frozen-lockfile
+
+      # `prepublishOnly` runs lint, typecheck, tests, build and package checks.
+      - run: pnpm publish --provenance --access public --no-git-checks

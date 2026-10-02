@@ -1,0 +1,85 @@
+{
+  "name": "usepromises",
+  "version": "0.1.0",
+  "description": "Tiny, type-safe React hooks for working with promises: usePromise, useMountPromise and useUnmountPromise.",
+  "keywords": [
+    "react",
+    "hooks",
+    "promise",
+    "async",
+    "usePromise",
+    "useMountPromise",
+    "useUnmountPromise",
+    "typescript"
+  ],
+  "license": "MIT",
+  "author": "Christoph Jerolimov",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christoph-jerolimov/empty-repo-6.git"
+  },
+  "bugs": {
+    "url": "https://github.com/christoph-jerolimov/empty-repo-6/issues"
+  },
+  "homepage": "https://github.com/christoph-jerolimov/empty-repo-6#readme",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "packageManager": "pnpm@10.28.0",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "check:package": "publint && attw --pack .",
+    "check": "pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run build && pnpm run check:package",
+    "prepublishOnly": "pnpm run check"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@biomejs/biome": "^2.5.15",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/react": "^16.3.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitest/coverage-v8": "^5.0.3",
+    "happy-dom": "^20.14.5",
+    "publint": "^0.3.25",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "tsdown": "^0.23.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3"
+  }
+}
