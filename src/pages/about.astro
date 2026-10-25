@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+const base = import.meta.env.BASE_URL;
+---
+
+<Layout title="About – Hello, World!">
+  <h1>About this site</h1>
+  <p class="lede">A small, static reference of “Hello, World!” programs across the history of programming.</p>
+
+  <h2>What is here</h2>
+  <p>
+    Every language gets its own page, generated from a single Markdown file in
+    <code>src/content/languages/</code>. Each file contains the canonical first program, a paragraph introducing the
+    language, a paragraph on its history, and links to the official homepage, documentation or language specification.
+  </p>
+
+  <h2>Why “Hello, World!”?</h2>
+  <p>
+    The tradition goes back to Brian Kernighan's 1972 tutorial for the B language at Bell Labs and was popularised by
+    the 1978 book <em>The C Programming Language</em>. It remains the smallest program that proves a toolchain works end
+    to end: the compiler or interpreter runs, the standard library is reachable, and output arrives where it should.
+  </p>
+
+  <h2>Contributing</h2>
+  <p>
+    To add a language, drop a new Markdown file into the content folder with the required front matter
+    (<code>title</code>, <code>year</code>, <code>era</code>, <code>summary</code>, <code>links</code>) and the site
+    will pick it up at build time. The site is built with <a href="https://astro.build" rel="noopener">Astro</a> and
+    published automatically to GitHub Pages by a GitHub Actions workflow on every push to <code>main</code>.
+  </p>
+
+  <p><a href={base}>← Back to all languages</a></p>
+</Layout>

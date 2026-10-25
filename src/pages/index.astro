@@ -1,0 +1,82 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+const languages = (await getCollection('languages')).sort((a, b) =>
+  a.data.year !== b.data.year ? a.data.year - b.data.year : a.data.title.localeCompare(b.data.title),
+);
+
+const eras = ['1940s', '1950s', '1960s', '1970s', '1980s', '1990s', '2000s', '2010s', '2020s'] as const;
+const byEra = eras
+  .map((era) => ({ era, items: languages.filter((l) => l.data.era === era) }))
+  .filter((group) => group.items.length > 0);
+
+const base = import.meta.env.BASE_URL;
+---
+
+<Layout title="Hello, World! in every major programming language">
+  <h1>Hello, World!</h1>
+  <p class="lede">
+    The classic first program in {languages.length} programming languages, from the 1940s to today. Each page has
+    a runnable snippet, a short introduction, a bit of history and links to the official homepage and specification.
+  </p>
+
+  <input
+    id="filter"
+    class="search"
+    type="search"
+    placeholder="Filter languages, e.g. “functional” or “1972”"
+    aria-label="Filter languages"
+  />
+
+  {
+    byEra.map(({ era, items }) => (
+      <section class="era-section" data-era>
+        <h2>
+          {era}
+          <small>{items.length} language{items.length === 1 ? '' : 's'}</small>
+        </h2>
+        <ul class="grid">
+          {items.map((lang) => (
+            <li
+              data-card
+              data-search={[
+                lang.data.title,
+                lang.data.year,
+                lang.data.summary,
+                ...lang.data.paradigms,
+                ...lang.data.designers,
+                lang.data.typing ?? '',
+              ]
+                .join(' ')
+                .toLowerCase()}
+            >
+              <a class="card" href={`${base}languages/${lang.id}/`}>
+                <span class="title">{lang.data.title}</span>
+                <span class="year">{lang.data.year}</span>
+                <span class="summary">{lang.data.summary}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+
+  <script>
+    const input = document.getElementById('filter') as HTMLInputElement | null;
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-card]'));
+    const sections = Array.from(document.querySelectorAll<HTMLElement>('[data-era]'));
+
+    input?.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      for (const card of cards) {
+        card.classList.toggle('hidden', q !== '' && !(card.dataset.search ?? '').includes(q));
+      }
+      for (const section of sections) {
+        const visible = section.querySelector('[data-card]:not(.hidden)');
+        section.classList.toggle('hidden', !visible);
+      }
+    });
+  </script>
+</Layout>

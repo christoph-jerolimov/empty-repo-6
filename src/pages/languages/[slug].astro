@@ -1,0 +1,77 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const languages = (await getCollection('languages')).sort((a, b) =>
+    a.data.year !== b.data.year ? a.data.year - b.data.year : a.data.title.localeCompare(b.data.title),
+  );
+  return languages.map((lang, i) => ({
+    params: { slug: lang.id },
+    props: { lang, prev: languages[i - 1] ?? null, next: languages[i + 1] ?? null },
+  }));
+}
+
+const { lang, prev, next } = Astro.props;
+const { Content } = await render(lang);
+const base = import.meta.env.BASE_URL;
+---
+
+<Layout title={`${lang.data.title} – Hello, World!`} description={lang.data.summary}>
+  <a class="back" href={base}>← All languages</a>
+  <h1>{lang.data.title}</h1>
+  <p class="lede">{lang.data.summary}</p>
+
+  <dl class="meta">
+    <dt>First appeared</dt>
+    <dd>{lang.data.year}</dd>
+    {
+      lang.data.designers.length > 0 && (
+        <>
+          <dt>Designed by</dt>
+          <dd>{lang.data.designers.join(', ')}</dd>
+        </>
+      )
+    }
+    {
+      lang.data.paradigms.length > 0 && (
+        <>
+          <dt>Paradigms</dt>
+          <dd class="tags">
+            {lang.data.paradigms.map((p) => (
+              <span class="tag">{p}</span>
+            ))}
+          </dd>
+        </>
+      )
+    }
+    {
+      lang.data.typing && (
+        <>
+          <dt>Typing</dt>
+          <dd>{lang.data.typing}</dd>
+        </>
+      )
+    }
+  </dl>
+
+  <Content />
+
+  <h2>Links</h2>
+  <ul class="links">
+    {
+      lang.data.links.map((link) => (
+        <li>
+          <a href={link.url} rel="noopener">
+            {link.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <nav class="pager" aria-label="Previous and next language">
+    {prev ? <a href={`${base}languages/${prev.id}/`}>← {prev.data.title} ({prev.data.year})</a> : <span />}
+    {next ? <a href={`${base}languages/${next.id}/`}>{next.data.title} ({next.data.year}) →</a> : <span />}
+  </nav>
+</Layout>
