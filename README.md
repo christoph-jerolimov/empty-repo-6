@@ -64,7 +64,7 @@ Code blocks are highlighted with Shiki; use a language id Shiki knows, or `text`
 
 ## Development
 
-Requires Node.js 22.23.4 or newer.
+Requires Node.js 22.23.4 or newer; CI builds on Node 24.
 
 ```sh
 npm install
